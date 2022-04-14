@@ -13,12 +13,11 @@ step = 50
 
 class Cell(pygame.Rect):
     def __init__(self, x, y, width, height, color):
-        pygame.Rect.__init__(self, x, y, width, height)
-        self.rect = pygame.Rect(x, y, width, height)
+        super().__init__(x, y, width, height)
         self.color = color
 
     def display(self):
-        pygame.draw.rect(window, self.color, self.rect)
+        pygame.draw.rect(window, self.color, super().copy())
 
 
 class Grid:
