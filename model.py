@@ -27,8 +27,9 @@ def create_model():
     model = models.Sequential(
         [
             layers.Flatten(input_shape=(28, 28)),
-            layers.Dense(16, activation="relu"),
-            layers.Dense(16, activation="relu"),
+            layers.Dense(128, activation="relu"),
+            layers.Dense(128, activation="relu"),
+            layers.Dense(128, activation="relu"),
             layers.Dense(10, activation="softmax"),
         ]
     )
@@ -52,10 +53,11 @@ def predict(data):
         if pred > bestPrediction:
             bestPrediction = pred
             bestPredictionNum = i
-        print(f"Confidence of a {i}: {pred}")
+        print(f"Confidence of a {i}: {round(pred * 100)}%")
     print(
         f"Best prediction: {bestPredictionNum}, {round(bestPrediction * 100)}% Confidence"
     )
+    return prediction[0]
 
 
 if __name__ == "__main__":

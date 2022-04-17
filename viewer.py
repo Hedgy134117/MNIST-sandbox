@@ -112,6 +112,31 @@ step = 20
 grid = Grid(step, step, 28 * step, 28 * step, step)
 
 
+usableFont = pygame.font.Font(None, 24)
+
+
+def displayPredictions():
+    predictions = model.predict(grid.generate_np_array())
+    pygame.draw.rect(
+        window,
+        pygame.Color("#000000"),
+        pygame.Rect(
+            grid.x + grid.width + grid.step,
+            grid.y,
+            width,
+            grid.y + len(predictions) * step,
+        ),
+    )
+    i = 0
+    for p in predictions:
+        p = np.around(p, 3)
+        window.blit(
+            usableFont.render(f"{i}: {round(p * 100)}%", True, pygame.Color("#FFFFFF")),
+            (grid.x + grid.width + grid.step, grid.y + i * step),
+        )
+        i += 1
+
+
 while is_running:
 
     for event in pygame.event.get():
@@ -119,9 +144,11 @@ while is_running:
             is_running = False
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
-                model.predict(grid.generate_np_array())
+                displayPredictions()
             if event.key == pygame.K_BACKSPACE:
                 grid.clear()
+        if event.type == pygame.MOUSEBUTTONUP:
+            displayPredictions()
 
     # window.blit(background, (0, 0))
 
