@@ -46,18 +46,18 @@ def create_model():
 def predict(data):
     model = tf.keras.models.load_model("./model.h5")
     prediction = model.predict(np.array([data]))
+    return prediction[0]
+
+
+def get_best_prediction(prediction):
     bestPrediction = 0
     bestPredictionNum = None
-    for i in range(len(prediction[0])):
-        pred = np.around(prediction[0][i], 3)
+    for i in range(len(prediction)):
+        pred = np.around(prediction[i], 3)
         if pred > bestPrediction:
             bestPrediction = pred
             bestPredictionNum = i
-        print(f"Confidence of a {i}: {round(pred * 100)}%")
-    print(
-        f"Best prediction: {bestPredictionNum}, {round(bestPrediction * 100)}% Confidence"
-    )
-    return prediction[0]
+    return [bestPredictionNum, bestPrediction]
 
 
 if __name__ == "__main__":

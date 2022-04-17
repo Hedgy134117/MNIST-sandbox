@@ -127,11 +127,17 @@ def displayPredictions():
             grid.y + len(predictions) * step,
         ),
     )
+
+    bestPrediction = model.get_best_prediction(predictions)
+
     i = 0
     for p in predictions:
         p = np.around(p, 3)
+        color = pygame.Color("#FFFFFF")
+        if i == bestPrediction[0]:
+            color = pygame.Color("#00FF00")
         window.blit(
-            usableFont.render(f"{i}: {round(p * 100)}%", True, pygame.Color("#FFFFFF")),
+            usableFont.render(f"{i}: {round(p * 100)}%", True, color),
             (grid.x + grid.width + grid.step, grid.y + i * step),
         )
         i += 1
